@@ -1,4 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+
 
 const Persons = ({ persons, match }) => {
   const personsToShow = persons.filter(p =>
@@ -18,41 +20,9 @@ const Persons = ({ persons, match }) => {
   )
 }
 
-const NewContact = ({ addName, newName, newNumber, handleNameChange, handleNumberChange }) => {
-  return(
-  <form onSubmit={addName}>
-    <div>
-      name: <input value={newName}
-        onChange={handleNameChange} />
-    </div>
-    <div>
-      number: <input value={newNumber}
-        onChange={handleNumberChange} />
-    </div>
-    <div>
-      <button type="submit">add</button>
-    </div>
-  </form>)
-}
-
-const SetSearch = ({newSearch, handleSearchChange}) => (
-  <div>
-  search: <input value={newSearch}
-    onChange={handleSearchChange} />
-</div>
-)
-
-const App = () => {
-  const [persons, setPersons] = useState([
-    {
-      name: 'Arto Hellas',
-      number: '0505010305',
-      visible: true
-    }
-  ])
+const NewContact = ({persons, setPersons}) => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
-  const [newSearch, setNewSearch] = useState('')
 
   const addName = (event) => {
     event.preventDefault()
@@ -76,6 +46,39 @@ const App = () => {
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value)
   }
+  return(
+  <form onSubmit={addName}>
+    <div>
+      name: <input value={newName}
+        onChange={handleNameChange} />
+    </div>
+    <div>
+      number: <input value={newNumber}
+        onChange={handleNumberChange} />
+    </div>
+    <div>
+      <button type="submit">add</button>
+    </div>
+  </form>)
+}
+
+const SetSearch = ({newSearch, handleSearchChange}) => {
+  return(
+  <div>
+  search: <input value={newSearch}
+    onChange={handleSearchChange} />
+</div>
+)}
+
+const App = () => {
+  const [persons, setPersons] = useState([
+    {
+      name: 'Arto Hellas',
+      number: '0505010305',
+      visible: true
+    }
+  ])
+  const [newSearch, setNewSearch] = useState('')
 
   const handleSearchChange = (event) => {
     setNewSearch(event.target.value)
@@ -85,8 +88,7 @@ const App = () => {
     <div>
       <h1>Phonebook</h1>
       <h2>Add a new contact</h2>
-      <NewContact addName={addName} newName={newName} newNumber={newNumber}
-       handleNameChange={handleNameChange} handleNumberChange={handleNumberChange}/>
+      <NewContact persons={persons} setPersons={setPersons}/>
       <h2>Numbers</h2>
       <SetSearch newSearch={newSearch} handleSearchChange={handleSearchChange}/>
       <Persons persons={persons} match={newSearch} />
