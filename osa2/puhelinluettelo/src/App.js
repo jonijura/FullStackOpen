@@ -71,14 +71,16 @@ const SetSearch = ({newSearch, handleSearchChange}) => {
 )}
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    {
-      name: 'Arto Hellas',
-      number: '0505010305',
-      visible: true
-    }
-  ])
+
+  const [persons, setPersons] = useState([])
   const [newSearch, setNewSearch] = useState('')
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/persons').then(response => {
+        setPersons(response.data)
+      })
+  }, [])
 
   const handleSearchChange = (event) => {
     setNewSearch(event.target.value)
