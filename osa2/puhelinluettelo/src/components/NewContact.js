@@ -38,6 +38,10 @@ const NewContact = ({ persons, setPersons, message}) => {
             setPersons(persons.concat(response))
             message({message:`added new contact ${newEntry.name}`, type: "msg"})
           })
+          .catch(error => {
+            console.log(error.response.data)
+            message({message: error.response.data.error, type: "error"})
+          })
       }
     }
   
