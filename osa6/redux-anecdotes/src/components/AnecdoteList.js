@@ -10,8 +10,8 @@ const AnecdoteList = () => {
         .sort((a, b) => b.votes - a.votes)
     const dispatch = useDispatch()
     const handleLike = (anecdote) => {
-        dispatch(addVote(anecdote.id))
-        dispatch(setNotification(`you voted for '${anecdote.content}'`))
+        dispatch(addVote(anecdote))
+        dispatch(setNotification(`you voted for '${anecdote.content}'`,3))
     }
     return (
         <div>
